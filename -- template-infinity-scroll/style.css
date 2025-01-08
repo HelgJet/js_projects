@@ -1,0 +1,68 @@
+:root {
+  --font-body-scale: 1.2;
+  --heading-scale: 1.1;
+  --font-heading-scale: calc(var(--heading-scale) / var(--font-body-scale));
+}
+
+html {
+  box-sizing: border-box;
+  font-size: calc(var(--font-body-scale) * 62.5%);
+}
+
+body {
+  margin: 0;
+  font-size: 1.4rem;
+  min-height: 100vh;
+}
+
+@media only screen and (min-width: 750px) {
+  body {
+    font-size: 1.6rem;
+  }
+}
+
+h1 {
+  text-align: center;
+  margin: 2rem auto;
+  font-size: calc(var(--font-heading-scale) * 3rem);
+  letter-spacing: 0.06rem;
+}
+
+@media only screen and (min-width: 750px) {
+  h1 {
+    font-size: calc(var(--font-heading-scale) * 5.6rem);
+  }
+}
+
+/* Image Container */
+.image-container {
+  margin: 1rem 2.5rem;
+}
+
+@media only screen and (min-width: 750px) {
+  .image-container {
+    margin: 1rem 20%;
+  }
+}
+
+.image-container img {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+/* Loader */
+.loader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.loader img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
