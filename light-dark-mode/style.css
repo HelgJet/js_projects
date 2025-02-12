@@ -1,4 +1,4 @@
-
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&family=Kaushan+Script&family=Oswald&display=swap");
 
 :root {
   --primary-color: rgb(255, 92, 92);
@@ -9,6 +9,25 @@
   --on-background-alt: rgba(66, 66, 66, 0.7);
   --background: rgb(255, 255, 255);
   --box-shadow: 0 5px 20px 1px rgba(0, 0, 0, 0.5);
+  --box-shadow-light: 0 5px 20px 1px rgba(255, 255, 255, 0.5);
+  --toggle-width: 80px;
+  --toggle-height: 40px;
+  --knob-size: 30px;
+  --knob-offset: 5px;
+  --sun-left: 8px;
+  --moon-left: 49px;
+  --checked-knob-bg: linear-gradient(
+    180deg,
+    var(--primary-variant),
+    var(--primary-color)
+  );
+  --unchecked-knob-bg: linear-gradient(
+    180deg,
+    var(--primary-color),
+    var(--primary-variant)
+  );
+  --checked-bg: var(--on-background);
+  --unchecked-bg: var(--background);
 }
 
 [data-theme="dark"] {
@@ -23,10 +42,15 @@
 
 html {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  font-family: Comfortaa, sans-serif;
+  color: var(--on-background);
+  background-color: var(--background);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%2372c5bd' fill-opacity='0.23'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20H6l5-20zm42 31a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM0 72h40v4H0v-4zm0-8h31v4H0v-4zm20-16h20v4H20v-4zM0 56h40v4H0v-4zm63-25a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM53 41a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-28-8a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zM56 5a5 5 0 0 0-10 0h10zm10 0a5 5 0 0 1-10 0h10zm-3 46a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM21 0l5 20H16l5-20zm43 64v-4h-4v4h-4v4h4v4h4v-4h4v-4h-4zM36 13h4v4h-4v-4zm4 4h4v4h-4v-4zm-4 4h4v4h-4v-4zm8-8h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 section {
@@ -40,11 +64,13 @@ section {
 h1 {
   font-size: 100px;
   margin-bottom: 0;
+  font-family: Kaushan Script, sans-serif;
 }
 
 h2 {
   font-size: 32px;
   font-weight: normal;
+  color: var(--on-background-alt);
 }
 
 /* Navigation */
@@ -52,6 +78,7 @@ nav {
   z-index: 10;
   position: fixed;
   font-size: 24px;
+  font-family: Oswald, sans-serif;
   letter-spacing: 3px;
   padding: 25px;
   width: 100vw;
@@ -61,15 +88,16 @@ nav {
 a {
   margin-right: 25px;
   color: var(--primary-color);
-  text-decoration: none;
-  border-bottom: 3px solid transparent;
+  text-decoration-thickness: 3px;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
   font-weight: bold;
 }
 
 a:hover,
 a:focus {
   color: var(--on-background);
-  border-bottom: 3px solid;
+  text-decoration-color: currentcolor;
 }
 
 /* Home Section */
@@ -79,7 +107,11 @@ a:focus {
 
 /* About Section */
 .about-container {
-  display: flex;
+  display: grid;
+  grid-column: 1 /-1;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 20px;
 }
 
 .image-container {
@@ -182,71 +214,85 @@ p {
   z-index: 100;
   position: fixed;
   right: 25px;
-  top: 30px;
+  top: 25px;
 }
 
-.theme-switch-wrapper span {
-  margin-right: 10px;
-  font-size: 1rem;
+.toggle-icon {
+  display: flex;
+  align-items: center;
 }
 
-.toggle-text {
+.toggle-icon > span {
+  color: var(--primary-variant);
+}
+
+label {
+  width: var(--toggle-width);
+  height: var(--toggle-height);
   position: relative;
-  top: -4px;
-  right: 5px;
-  color: var(--on-background);
-}
-
-.theme-switch {
-  display: inline-block;
-  height: 34px;
-  position: relative;
-  width: 60px;
-}
-
-.theme-switch input {
-  display: none;
-}
-
-.slider {
-  background: #ccc;
-  bottom: 0;
+  display: block;
+  background: var(--unchecked-bg);
+  border-radius: calc(var(--toggle-height) / 2);
+  box-shadow: var(--box-shadow);
   cursor: pointer;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: 0.4s;
+  transition: 0.3s;
 }
 
-.slider::before {
-  background: #fff;
-  bottom: 4px;
+.shadow-for--light {
+  box-shadow: var(--box-shadow);
+}
+
+.shadow-for--dark {
+  box-shadow: var(--box-shadow-light);
+}
+
+label:after {
   content: "";
-  height: 26px;
-  left: 4px;
+  width: var(--knob-size);
+  height: var(--knob-size);
   position: absolute;
-  transition: 0.4s;
-  width: 26px;
-}
-
-input:checked + .slider {
-  background: var(--primary-color);
-}
-
-input:checked + .slider::before {
-  transform: translateX(26px);
-}
-
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round::before {
+  top: var(--knob-offset);
+  left: var(--knob-offset);
+  background: var(--unchecked-knob-bg);
   border-radius: 50%;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
 }
 
-.fas {
-  font-size: 30px;
-  margin-right: 5px;
+label svg {
+  position: absolute;
+  width: calc(var(--knob-size) * 0.8);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  transition: 0.3s;
+}
+
+label svg.sun {
+  left: var(--sun-left);
+  fill: var(--on-primary);
+}
+
+label svg.moon {
+  left: var(--moon-left);
+  fill: var(--on-background-alt);
+}
+
+input {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+input:checked + label {
+  background: var(--checked-bg);
+}
+
+input:checked + label:after {
+  left: calc(var(--toggle-width) - var(--knob-size) - var(--knob-offset));
+  background: var(--checked-knob-bg);
+}
+
+input:checked + label svg.moon {
+  fill: var(--on-background);
 }
